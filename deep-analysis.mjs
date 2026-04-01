@@ -4,7 +4,7 @@
 import { wrapFetchWithPayment } from 'x402-fetch';
 import dotenv from 'dotenv';
 import { parseArgs } from 'util';
-import fetch from 'node-fetch';   // ← Thêm dòng này để fix lỗi fetch
+import fetch from 'node-fetch';   // Fix fetch is not a function
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ async function deepAnalysis(input) {
         token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
       },
       settleAfterResponse: true,
-      fetch: fetch   // ← Sử dụng node-fetch
+      fetch: fetch
     });
 
     const response = await fetchWithPayment(API_URL, {
