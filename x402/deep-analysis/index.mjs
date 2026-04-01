@@ -1,5 +1,6 @@
 // x402/deep-analysis/index.mjs
-// Deep Project Due Diligence Service - 0.35 USDC per analysis
+// Deep Project Due Diligence - 0.35 USDC per analysis
+// Powered by Blue Agent
 
 import { callLLM } from '../../utils/llm.js';
 
@@ -10,9 +11,7 @@ export default async function handler(req) {
     if (!contractAddress && !projectName) {
       return {
         status: 400,
-        body: { 
-          error: "Please provide either contractAddress or projectName" 
-        }
+        body: { error: "Please provide either contractAddress or projectName" }
       };
     }
 
@@ -20,11 +19,11 @@ export default async function handler(req) {
       ? contractAddress 
       : `${projectName}${ticker ? ` (${ticker})` : ''}`;
 
-    console.log(`[DeepAnalysis] Analyzing: ${input}`);
+    console.log(`[BlueAgent DeepAnalysis] Analyzing: ${input}`);
 
-    const systemPrompt = `You are a senior crypto due diligence analyst specializing in Base chain projects.
+    const systemPrompt = `You are a senior crypto due diligence analyst on Base chain, powered by Blue Agent.
 
-Return ONLY a valid JSON object with this exact structure. No extra text or explanation:
+Return ONLY a valid JSON object with this exact structure. No extra text:
 
 {
   "projectName": "string",
@@ -43,4 +42,37 @@ Return ONLY a valid JSON object with this exact structure. No extra text or expl
   },
   "keyRisks": ["short risk point 1", "short risk point 2"],
   "keyStrengths": ["short strength point 1", "short strength point 2"],
-  "summary":
+  "summary": "Professional 3-4 sentence summary",
+  "recommendation": "Strong Buy | Buy | Caution | Avoid | High Risk",
+  "suggestedActions": ["actionable recommendation 1", "actionable recommendation 2"]
+}`;
+
+    const userPrompt = `Perform a deep due diligence analysis on: ${input}`;
+
+    const llmResponse = await callLLM({
+      model: "claude-sonnet-4.6",
+      system: systemPrompt,
+      messages: [{ role: "user", content: userPrompt }],
+      temperature: 0.65,
+      maxTokens: 1400
+    });
+
+    const result = JSON.parse(llmResponse);
+
+    return {
+      status: 200,
+      body: result
+    };
+
+  } catch (error) {
+    console.error("[BlueAgent DeepAnalysis] Error:", error);
+
+    return {
+      status: 500,
+      body: { 
+        error: "Failed to perform deep project analysis", 
+        message: error.message 
+      }
+    };
+  }
+}
