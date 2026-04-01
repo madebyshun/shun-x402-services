@@ -4,6 +4,7 @@
 import { wrapFetchWithPayment } from 'x402-fetch';
 import dotenv from 'dotenv';
 import { parseArgs } from 'util';
+import fetch from 'node-fetch';   // ← Thêm dòng này để fix lỗi fetch
 
 dotenv.config();
 
@@ -24,9 +25,10 @@ async function deepAnalysis(input) {
     const fetchWithPayment = wrapFetchWithPayment({
       payment: {
         amount: '0.35',
-        token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+        token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
       },
       settleAfterResponse: true,
+      fetch: fetch   // ← Sử dụng node-fetch
     });
 
     const response = await fetchWithPayment(API_URL, {
@@ -74,11 +76,6 @@ async function deepAnalysis(input) {
     if (data.summary) {
       console.log('\n💡 Summary:');
       console.log(data.summary);
-    }
-
-    if (data.suggestedActions && data.suggestedActions.length > 0) {
-      console.log('\n📌 Suggested Actions:');
-      data.suggestedActions.forEach(action => console.log(`  • ${action}`));
     }
 
   } catch (error) {
