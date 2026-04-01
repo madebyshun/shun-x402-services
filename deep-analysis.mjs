@@ -1,10 +1,8 @@
 // deep-analysis.mjs
-// CLI Tool for BlueAgent Deep Project Due Diligence (0.35 USDC)
+// BlueAgent Deep Project Due Diligence CLI
 
-import { wrapFetchWithPayment } from 'x402-fetch';
 import dotenv from 'dotenv';
 import { parseArgs } from 'util';
-import fetch from 'node-fetch';   // Fix fetch is not a function
 
 dotenv.config();
 
@@ -13,15 +11,17 @@ const API_URL = 'https://blueagent-x402-services.bankr.bot/deep-analysis';
 async function deepAnalysis(input) {
   if (!input) {
     console.error('❌ Usage: node deep-analysis.mjs <contractAddress or projectName>');
-    console.error('Examples:');
-    console.error('  node deep-analysis.mjs 0x742d35Cc6634C0532925a3b844Bc454e4438f44e');
-    console.error('  node deep-analysis.mjs "Pepe Unchained"');
+    console.error('Example: node deep-analysis.mjs 0x742d35Cc6634C0532925a3b844Bc454e4438f44e');
     process.exit(1);
   }
 
   console.log(`🔍 BlueAgent Deep Analysis on: ${input}`);
 
   try {
+    // Sử dụng dynamic import để tránh lỗi fetch
+    const { wrapFetchWithPayment } = await import('x402-fetch');
+    const fetch = (await import('node-fetch')).default;
+
     const fetchWithPayment = wrapFetchWithPayment({
       payment: {
         amount: '0.35',
@@ -43,7 +43,8 @@ async function deepAnalysis(input) {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
 
     const data = await response.json();
@@ -59,18 +60,15 @@ async function deepAnalysis(input) {
     console.log(`Recommendation : ${data.recommendation}`);
 
     console.log('\n📊 Category Scores:');
-    Object.entries(data.categories || {}).forEach(([key, value]) => {
-      console.log(`  ${key.padEnd(15)}: ${value}`);
-    });
+    if (data.categories) {
+      Object.entries(data.categories).forEach(([key, value]) => {
+        console.log(`  ${key.padEnd(15)}: ${value}`);
+      });
+    }
 
     if (data.keyRisks && data.keyRisks.length > 0) {
       console.log('\n⚠️ Key Risks:');
       data.keyRisks.forEach(risk => console.log(`  • ${risk}`));
-    }
-
-    if (data.keyStrengths && data.keyStrengths.length > 0) {
-      console.log('\n✅ Key Strengths:');
-      data.keyStrengths.forEach(str => console.log(`  • ${str}`));
     }
 
     if (data.summary) {
@@ -80,13 +78,13 @@ async function deepAnalysis(input) {
 
   } catch (error) {
     console.error('\n❌ Error:', error.message);
-    if (error.message.includes('payment')) {
-      console.error('💰 Please ensure you have enough USDC in your wallet.');
+    if (error.message.includes('payment') || error.message.includes('0x')) {
+      console.error('💰 Please make sure you have enough USDC and wallet is connected.');
     }
   }
 }
 
-// Parse command line arguments
+// Run
 const args = parseArgs({
   options: { help: { type: 'boolean', short: 'h' } },
   allowPositionals: true,
