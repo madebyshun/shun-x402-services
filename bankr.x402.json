@@ -9,30 +9,132 @@
         "input": {
           "type": "object",
           "properties": {
-            "contractAddress": {
-              "type": "string",
-              "description": "Contract address on Base (optional)"
-            },
-            "projectName": {
-              "type": "string",
-              "description": "Project name to analyze (optional)"
-            },
-            "ticker": {
-              "type": "string",
-              "description": "Token ticker symbol (optional)"
-            }
+            "contractAddress": { "type": "string", "description": "Contract address on Base (optional)" },
+            "projectName": { "type": "string", "description": "Project name to analyze (optional)" },
+            "ticker": { "type": "string", "description": "Token ticker symbol (optional)" }
           }
         },
         "output": {
           "type": "object",
           "properties": {
+            "projectName": { "type": "string" },
+            "overallScore": { "type": "number" },
+            "riskScore": { "type": "number" },
+            "rugProbability": { "type": "number" },
+            "recommendation": { "type": "string" },
+            "summary": { "type": "string" }
+          }
+        }
+      }
+    },
+    "wallet-pnl": {
+      "price": "1.00",
+      "description": "Wallet PnL Report - Deep analysis of any Base wallet: trading style, estimated PnL, top tokens, smart money score",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string", "description": "Base wallet address (0x...)" }
+          },
+          "required": ["address"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string" },
+            "estimatedPnL": { "type": "string" },
+            "winRate": { "type": "string" },
+            "tradingStyle": { "type": "string" },
+            "riskProfile": { "type": "string" },
+            "smartMoneyScore": { "type": "number" },
+            "summary": { "type": "string" }
+          }
+        }
+      }
+    },
+    "launch-advisor": {
+      "price": "3.00",
+      "description": "Token Launch Advisor - Full launch playbook for Base projects: tokenomics, timeline, marketing strategy, KPIs",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "projectName": { "type": "string", "description": "Your project name" },
+            "description": { "type": "string", "description": "What your project does" },
+            "targetAudience": { "type": "string", "description": "Who are your users?" },
+            "teamSize": { "type": "string", "description": "Number of team members (optional)" },
+            "budget": { "type": "string", "description": "Launch budget range (optional)" },
+            "tokenSupply": { "type": "string", "description": "Planned token supply (optional)" }
+          },
+          "required": ["projectName", "description"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "launchScore": { "type": "number" },
+            "tokenomics": { "type": "object" },
+            "launchTimeline": { "type": "array" },
+            "marketingStrategy": { "type": "object" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
+    },
+    "grant-evaluator": {
+      "price": "5.00",
+      "description": "Base Grant Evaluator - Professional grant application scoring using Base/Coinbase criteria: innovation, feasibility, impact, team quality",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
             "projectName": { "type": "string", "description": "Project name" },
-            "ticker": { "type": "string", "description": "Token ticker" },
-            "overallScore": { "type": "number", "description": "Overall score 0-100" },
-            "riskScore": { "type": "number", "description": "Risk score 0-100 (higher = riskier)" },
-            "rugProbability": { "type": "number", "description": "Rug pull probability 0-100" },
-            "recommendation": { "type": "string", "description": "Strong Buy | Buy | Caution | Avoid | High Risk" },
-            "summary": { "type": "string", "description": "Professional analysis summary" }
+            "description": { "type": "string", "description": "Project description" },
+            "teamBackground": { "type": "string", "description": "Team experience and background (optional)" },
+            "requestedAmount": { "type": "string", "description": "Grant amount requested (optional)" },
+            "milestones": { "type": "string", "description": "Project milestones (optional)" },
+            "githubUrl": { "type": "string", "description": "GitHub repository URL (optional)" },
+            "websiteUrl": { "type": "string", "description": "Project website (optional)" }
+          },
+          "required": ["projectName", "description"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "overallScore": { "type": "number" },
+            "recommendation": { "type": "string" },
+            "suggestedGrantSize": { "type": "string" },
+            "scores": { "type": "object" },
+            "strengths": { "type": "array" },
+            "concerns": { "type": "array" },
+            "executiveSummary": { "type": "string" }
+          }
+        }
+      }
+    },
+    "risk-gate": {
+      "price": "0.05",
+      "description": "Risk Gate for Agents - Safety check before executing onchain transactions. Returns APPROVE/WARN/BLOCK decision with risk score",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "action": { "type": "string", "description": "Action the agent wants to execute (e.g. buy token, approve contract)" },
+            "contractAddress": { "type": "string", "description": "Contract address to interact with (optional)" },
+            "amount": { "type": "string", "description": "Transaction amount in USD or token (optional)" },
+            "toAddress": { "type": "string", "description": "Recipient address (optional)" },
+            "agentId": { "type": "string", "description": "Your agent identifier (optional)" },
+            "context": { "type": "string", "description": "Additional context about the action (optional)" }
+          },
+          "required": ["action"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "decision": { "type": "string", "description": "APPROVE | BLOCK | WARN" },
+            "riskScore": { "type": "number" },
+            "riskLevel": { "type": "string" },
+            "reasons": { "type": "array" },
+            "recommendation": { "type": "string" }
           }
         }
       }
