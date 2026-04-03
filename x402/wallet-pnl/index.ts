@@ -41,7 +41,12 @@ async function getBasescanTxs(address: string): Promise<any[]> {
 export default async function handler(req: Request): Promise<Response> {
   try {
     let body: { address?: string } = {};
-    try { body = await req.json(); } catch {}
+    try {
+      const text = await req.text();
+      if (text && text.trim().startsWith('{')) body = JSON.parse(text);
+    } catch {}
+    const url = new URL(req.url);
+    if (!body.address) body.address = url.searchParams.get('address') || undefined;
 
     const { address } = body;
 

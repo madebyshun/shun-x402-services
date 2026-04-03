@@ -41,7 +41,10 @@ export default async function handler(req: Request): Promise<Response> {
       githubUrl?: string;
       websiteUrl?: string;
     } = {};
-    try { body = await req.json(); } catch {}
+    try {
+      const text = await req.text();
+      if (text && text.trim().startsWith("{")) body = JSON.parse(text);
+    } catch {}
 
     const { projectName, description } = body;
 

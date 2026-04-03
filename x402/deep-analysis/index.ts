@@ -45,12 +45,26 @@ async function callLLM(options: {
 export default async function handler(req: Request): Promise<Response> {
   try {
     let body: { contractAddress?: string; projectName?: string; ticker?: string } = {};
+
+    // Try JSON body first
     try {
-      body = await req.json();
+      const text = await req.text();
+      if (text && text.trim().startsWith('{')) {
+        body = JSON.parse(text);
+      }
     } catch {
-      // no body or not JSON
+      // ignore
     }
 
+    // Fallback to query params
+    const url = new URL(req.url);
+    if (!body.contractAddress && !body.projectName) {
+      body.contractAddress = url.searchParams.get('contractAddress') || undefined;
+      body.projectName = url.searchParams.get('projectName') || undefined;
+      body.ticker = url.searchParams.get('ticker') || undefined;
+    }
+
+    // Fallback: if still empty, default to a generic analysis
     const { contractAddress, projectName, ticker } = body;
 
     if (!contractAddress && !projectName) {

@@ -138,6 +138,36 @@
           }
         }
       }
+    },
+    "quantum-premium": {
+      "price": "1.50",
+      "description": "Quantum Risk Report - Analyze your wallet's vulnerability to quantum computing attacks. Public key exposure check, risk level, migration steps. Powered by Blue Agent.",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string", "description": "Wallet address to analyze (0x...)" },
+            "chain": { "type": "string", "description": "Blockchain (default: base)" }
+          },
+          "required": ["address"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string" },
+            "chain": { "type": "string" },
+            "quantumRiskLevel": { "type": "string", "description": "CRITICAL | HIGH | MEDIUM | LOW | MINIMAL" },
+            "riskScore": { "type": "number" },
+            "publicKeyExposed": { "type": "boolean" },
+            "confidenceScore": { "type": "number" },
+            "threatTimeline": { "type": "string" },
+            "vulnerabilities": { "type": "array" },
+            "migrationSteps": { "type": "array" },
+            "executiveSummary": { "type": "string" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
     }
   }
 }

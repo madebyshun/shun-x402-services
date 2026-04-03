@@ -52,7 +52,10 @@ export default async function handler(req: Request): Promise<Response> {
       agentId?: string;          // which agent is asking
       context?: string;          // additional context
     } = {};
-    try { body = await req.json(); } catch {}
+    try {
+      const text = await req.text();
+      if (text && text.trim().startsWith("{")) body = JSON.parse(text);
+    } catch {}
 
     const { action, contractAddress, amount } = body;
 

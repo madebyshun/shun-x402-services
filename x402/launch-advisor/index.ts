@@ -40,7 +40,10 @@ export default async function handler(req: Request): Promise<Response> {
       teamSize?: string;
       budget?: string;
     } = {};
-    try { body = await req.json(); } catch {}
+    try {
+      const text = await req.text();
+      if (text && text.trim().startsWith("{")) body = JSON.parse(text);
+    } catch {}
 
     const { projectName, description, targetAudience } = body;
 
