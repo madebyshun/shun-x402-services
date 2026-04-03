@@ -9,7 +9,7 @@ async function callLLM(options: {
   temperature?: number;
   maxTokens?: number;
 }): Promise<string> {
-  const { model, system, messages, temperature = 0.7, maxTokens = 1600 } = options;
+  const { model, system, messages, temperature = 0.7, maxTokens = 900 } = options;
 
   const response = await fetch('https://llm.bankr.bot/v1/messages', {
     method: 'POST',
@@ -116,25 +116,19 @@ Return ONLY a valid JSON object with this exact structure. No extra text:
   "recommendation": "MIGRATE_NOW | MIGRATE_SOON | MONITOR | SAFE_FOR_NOW"
 }`;
 
-    const userMessage = `Analyze the quantum computing risk for this ${chain} wallet address: ${address}
-
-Determine:
-1. Whether the public key is likely exposed (has the wallet sent transactions?)
-2. Overall quantum vulnerability risk level
-3. Specific migration steps if needed
-4. Confidence in the assessment
-
-Note: You cannot directly query the blockchain, so base your analysis on general principles and the address format. Provide a thorough, honest assessment acknowledging limitations.`;
+    const userMessage = `Analyze quantum computing risk for this ${chain} wallet: ${address}. Return compact JSON only — keep all string values under 100 chars. Max 3 vulnerabilities, max 3 migration steps.`;
 
     const llmResponse = await callLLM({
-      model: 'claude-sonnet-4.6',
+      model: 'claude-haiku-4-5',
       system: systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
       temperature: 0.5,
-      maxTokens: 1600,
+      maxTokens: 900,
     });
 
-    const result = JSON.parse(llmResponse);
+    // Strip markdown code blocks if present
+    const cleaned = llmResponse.replace(/```(?:json)?\n?/g, '').replace(/```/g, '').trim();
+    const result = JSON.parse(cleaned);
     return Response.json(result, { status: 200 });
 
   } catch (error) {
