@@ -139,6 +139,30 @@
         }
       }
     },
+    "quantum-batch": {
+      "price": "2.50",
+      "paymentScheme": "upto",
+      "description": "Quantum Batch Scanner - Scan 1-10 wallets at $0.25 each. Pay only for what you scan.",
+      "methods": ["POST"],
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "addresses": { "type": "array", "description": "Array of wallet addresses to scan (max 10)", "items": { "type": "string" } }
+          },
+          "required": ["addresses"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "scanned": { "type": "number" },
+            "results": { "type": "array" },
+            "billing": { "type": "object" },
+            "summary": { "type": "object", "description": "Count by risk level" }
+          }
+        }
+      }
+    },
     "quantum-premium": {
       "price": "1.50",
       "description": "Quantum Risk Report - Analyze your wallet's vulnerability to quantum computing attacks. Public key exposure check, risk level, migration steps. Powered by Blue Agent.",
