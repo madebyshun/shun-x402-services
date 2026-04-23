@@ -545,6 +545,124 @@
           }
         }
       }
+    },
+    "dex-flow": {
+      "category": "data",
+      "price": "0.15",
+      "description": "DEX volume, buy/sell pressure and liquidity flow for any Base token — live DexScreener data",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "token": { "type": "string", "description": "Token contract address or ticker symbol" }
+          },
+          "required": ["token"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "pressure": { "type": "string", "description": "STRONG_BUY | BUY | NEUTRAL | SELL | STRONG_SELL" },
+            "buySellRatio": { "type": "string" },
+            "volume24h": { "type": "string" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
+    },
+    "tokenomics-score": {
+      "category": "research",
+      "price": "0.50",
+      "description": "Token supply, inflation, unlock cliff analysis — sustainability score and sell pressure outlook",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "token": { "type": "string", "description": "Token name, ticker, or contract address" }
+          },
+          "required": ["token"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "sustainabilityScore": { "type": "number" },
+            "supplyHealth": { "type": "string" },
+            "vestingRisk": { "type": "string" },
+            "sellPressureOutlook": { "type": "string" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
+    },
+    "whitepaper-tldr": {
+      "category": "research",
+      "price": "0.20",
+      "description": "Summarize any whitepaper or project docs into 5 key bullets — thesis, moat, token utility, risks",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "description": "URL to whitepaper or project documentation" },
+            "projectName": { "type": "string", "description": "Project name (optional)" }
+          },
+          "required": ["url"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "oneLiner": { "type": "string" },
+            "bullets": { "type": "array" },
+            "verdict": { "type": "string" },
+            "tldrScore": { "type": "number" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
+    },
+    "vc-tracker": {
+      "category": "research",
+      "price": "1.00",
+      "description": "VC investment activity and thesis — who is backing what, hot sectors, signals for builders and traders",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "query": { "type": "string", "description": "VC firm name, sector, or investment theme (e.g. 'a16z crypto', 'AI x DeFi')" }
+          },
+          "required": ["query"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "investmentThesis": { "type": "string" },
+            "hotSectors": { "type": "array" },
+            "baseEcosystemActivity": { "type": "string" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
+    },
+    "yield-optimizer": {
+      "category": "earn",
+      "price": "0.15",
+      "description": "Best APY opportunities on Base DeFi — live DeFiLlama data, risk-adjusted recommendations",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "token": { "type": "string", "description": "Token to optimize yield for (e.g. USDC, ETH, BRETT)" }
+          },
+          "required": ["token"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "bestOpportunities": { "type": "array" },
+            "recommendedStrategy": { "type": "string" },
+            "riskWarnings": { "type": "array" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      }
     }
   }
 }
