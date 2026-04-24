@@ -1,6 +1,10 @@
 ---
 name: blueagent-x402
-description: Pay-per-use AI services on Base via x402 protocol. Use when agents need to analyze tokens/projects (deep due diligence), analyze wallet PnL, get a token launch playbook, evaluate grant applications, or run a safety check before executing transactions. All powered by Blue Agent × Bankr. Pay USDC per call, no subscription.
+description: >
+  Security-first AI toolkit for autonomous agents and builders on Base.
+  25 pay-per-use tools across Quantum Security, Agent Safety, Research, and Data.
+  Built for AI agents, Zero-Human Companies (ZHC), and Base ecosystem builders.
+  Pay USDC per call via x402 protocol — no subscription, no API key needed.
 metadata:
   {
     "clawdbot":
@@ -12,200 +16,135 @@ metadata:
   }
 ---
 
-# BlueAgent x402 Services
+# BlueAgent x402 — Security OS for Autonomous Agents
 
-5 AI-powered services on Base — pay USDC per call via x402 protocol. No subscription, no API key needed.
+**25 pay-per-use AI tools on Base** — Quantum Security · Agent Safety · Research · Data · Earn
 
 **Base URL:** `https://x402.bankr.bot/0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/`
 
-## Services
+---
+
+## QUANTUM SECURITY
 
 | Service | Price | Description |
 |---------|-------|-------------|
-| `deep-analysis` | $0.35/req | Due diligence for any Base token or project |
-| `wallet-pnl` | $1.00/req | PnL report for any Base wallet |
-| `launch-advisor` | $3.00/req | Full launch playbook for Base founders |
-| `grant-evaluator` | $5.00/req | Grant application scoring (Base/Coinbase criteria) |
-| `risk-gate` | $0.05/req | Safety check before agents execute transactions |
+| `quantum-premium` | $1.50 | Wallet quantum vulnerability score — public key exposure, threat timeline, migration steps |
+| `quantum-batch` | upto $2.50 | Scan 1–10 wallets at $0.25 each — pay only for what you scan |
+| `quantum-migrate` | $2.00 | Step-by-step quantum-safe migration plan with tools and timeline |
+| `quantum-timeline` | $0.40 | Evidence-based quantum threat timeline — when CRQC arrives and what it means |
+| `key-exposure` | $0.50 | Check if wallet's public key is exposed on-chain — the #1 quantum risk factor |
+
+---
+
+## AGENT SAFETY (Security-first for ZHC)
+
+| Service | Price | Description |
+|---------|-------|-------------|
+| `risk-gate` | $0.05 | Pre-transaction safety check — APPROVE / WARN / BLOCK with risk score |
+| `honeypot-check` | $0.05 | Detect honeypot or rug pull contracts before buying |
+| `allowance-audit` | $0.20 | Audit dangerous token approvals — find unlimited allowances to revoke |
+| `phishing-scan` | $0.10 | Scan URL, address, or @handle for phishing and scam indicators |
+| `mev-shield` | $0.30 | MEV sandwich attack risk before large swaps — protection strategies |
+| `contract-trust` | $0.25 | Trust score for any contract — verified, audited, safe for agent interaction? |
+| `circuit-breaker` | $0.50 | CONTINUE / PAUSE / HALT decision for autonomous agents and ZHC |
+
+---
+
+## RESEARCH (Base Builders)
+
+| Service | Price | Description |
+|---------|-------|-------------|
+| `deep-analysis` | $0.35 | Deep due diligence for any Base token or project — risk score, rug probability |
+| `launch-advisor` | $3.00 | Full token launch playbook — tokenomics, 8-week timeline, marketing, KPIs |
+| `grant-evaluator` | $5.00 | Base ecosystem grant scoring — innovation, feasibility, impact, team quality |
+| `tokenomics-score` | $0.50 | Supply, inflation, unlock cliff analysis — sustainability score, sell pressure |
+| `whitepaper-tldr` | $0.20 | Summarize any whitepaper into 5 key bullets — thesis, moat, risks |
+| `vc-tracker` | $1.00 | VC investment activity — hot sectors, thesis, signals for builders and traders |
+| `x402-readiness` | $1.00 | Audit any API for x402 payment protocol readiness — gaps, steps, pricing |
+| `base-deploy-check` | $0.50 | Pre-deployment security check — vulnerabilities, centralization risks, go/no-go |
+
+---
+
+## DATA & EARN
+
+| Service | Price | Description |
+|---------|-------|-------------|
+| `wallet-pnl` | $1.00 | Wallet PnL report — win rate, trading style, smart money score |
+| `whale-tracker` | $0.10 | Smart money flow analysis — accumulation vs distribution signal |
+| `dex-flow` | $0.15 | DEX buy/sell pressure and volume flow — live DexScreener data |
+| `aml-screen` | $0.25 | AML compliance screening — transaction patterns, risk flags |
+| `airdrop-check` | $0.10 | Base airdrop eligibility — which protocols, activity score, estimated value |
+| `narrative-pulse` | $0.40 | Trending crypto narratives — momentum scores, Base ecosystem themes |
+| `yield-optimizer` | $0.15 | Best APY on Base DeFi — live DeFiLlama data, risk-adjusted recommendations |
+
+---
 
 ## Quick Start
 
-### Using Bankr CLI
-
+### Bankr CLI
 ```bash
-# Analyze a token or project
-bankr x402 call 0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/deep-analysis \
-  -X POST -d '{"projectName":"Uniswap"}' -y
-
-# Analyze a wallet
-bankr x402 call 0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/wallet-pnl \
-  -X POST -d '{"address":"0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"}' -y
-
-# Safety check before transaction
+# Pre-flight check before agent transaction
 bankr x402 call 0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/risk-gate \
-  -X POST -d '{"action":"buy token","contractAddress":"0x...","amount":"$50"}' -y
+  -X POST -d '{"action":"swap 100 USDC for BRETT","contractAddress":"0x...","amount":"$100"}' -y
+
+# Quantum risk check
+bankr x402 call 0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/quantum-premium \
+  -X POST -d '{"address":"0xYOUR_WALLET"}' -y
+
+# Honeypot check before buying
+bankr x402 call 0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/honeypot-check \
+  -X POST -d '{"token":"0xTOKEN_ADDRESS"}' -y
+
+# Airdrop eligibility
+bankr x402 call 0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/airdrop-check \
+  -X POST -d '{"address":"0xYOUR_WALLET"}' -y
 ```
 
-### Using x402-fetch (JS/TS)
-
-```bash
-npm install x402-fetch viem
-```
-
+### x402-fetch (JS/TS — for AI agents)
 ```typescript
-import { wrapFetchWithPayment } from 'x402-fetch';
-import { createWalletClient, http } from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
-import { base } from 'viem/chains';
+import { wrapFetchWithPayment } from 'x402-fetch'
+import { createWalletClient, http } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+import { base } from 'viem/chains'
 
-const account = privateKeyToAccount('0xYOUR_PRIVATE_KEY');
-const wallet = createWalletClient({ account, chain: base, transport: http() });
-const paidFetch = wrapFetchWithPayment(fetch, wallet);
+const account = privateKeyToAccount(process.env.WALLET_PRIVATE_KEY as `0x${string}`)
+const wallet = createWalletClient({ account, chain: base, transport: http() })
+const paidFetch = wrapFetchWithPayment(fetch, wallet)
 
-const res = await paidFetch(
-  'https://x402.bankr.bot/0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/deep-analysis',
-  {
+const BASE = 'https://x402.bankr.bot/0xf31f59e7b8b58555f7871f71973a394c8f1bffe5'
+
+// Agent safety pattern — call before EVERY transaction
+async function safeExecute(action: string, contract?: string, amount?: string) {
+  const check = await paidFetch(`${BASE}/risk-gate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ projectName: 'Uniswap' })
-  }
-);
-const data = await res.json();
+    body: JSON.stringify({ action, contractAddress: contract, amount, agentId: 'my-agent' })
+  }).then(r => r.json())
+
+  if (check.decision === 'BLOCK') return null          // abort
+  if (check.decision === 'WARN') amount = check.maxSafeAmount  // reduce
+
+  // proceed with transaction...
+}
+
+// Zero-Human Company circuit breaker
+const status = await paidFetch(`${BASE}/circuit-breaker`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ agentId: 'my-zhc', context: 'consecutive losses detected', recentLosses: '$340' })
+}).then(r => r.json())
+// { decision: "PAUSE", cooldownPeriod: "30 minutes", requiresHumanReview: false }
 ```
 
-## Service Details
-
-### deep-analysis — $0.35/req
-
-Deep due diligence for any Base token or project.
-
-**Input:**
-```json
-{
-  "contractAddress": "0x...",
-  "projectName": "Uniswap",
-  "ticker": "UNI"
-}
-```
-> Provide `contractAddress` OR `projectName` (at least one required)
-
-**Output:**
-```json
-{
-  "projectName": "Uniswap",
-  "overallScore": 88,
-  "riskScore": 12,
-  "rugProbability": 2,
-  "categories": {
-    "Tokenomics": 85,
-    "Liquidity": 95,
-    "CodeQuality": 90,
-    "TeamActivity": 82,
-    "Community": 88,
-    "Transparency": 87
-  },
-  "keyRisks": ["..."],
-  "keyStrengths": ["..."],
-  "recommendation": "Strong Buy",
-  "summary": "..."
-}
+### MCP (Claude Code / AgentKit)
+```bash
+npx @blueagent/skill install --claude
 ```
 
 ---
-
-### wallet-pnl — $1.00/req
-
-Deep PnL analysis for any Base wallet.
-
-**Input:**
-```json
-{ "address": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" }
-```
-
-**Output:**
-```json
-{
-  "estimatedPnL": "+$3,240",
-  "winRate": "68%",
-  "tradingStyle": "Memecoin Aper",
-  "riskProfile": "Aggressive",
-  "smartMoneyScore": 72,
-  "topTokens": ["DEGEN", "BRETT", "TOSHI"],
-  "summary": "..."
-}
-```
-
----
-
-### launch-advisor — $3.00/req
-
-Full go-to-market playbook for Base token launches.
-
-**Input:**
-```json
-{
-  "projectName": "MyProject",
-  "description": "A DeFi protocol for...",
-  "targetAudience": "Base builders",
-  "teamSize": "3",
-  "budget": "$10,000"
-}
-```
-
-**Output:** Launch score, tokenomics, 8-week timeline, marketing strategy, KPIs, recommendation.
-
----
-
-### grant-evaluator — $5.00/req
-
-Professional grant scoring using Base/Coinbase grant criteria.
-
-**Input:**
-```json
-{
-  "projectName": "MyProject",
-  "description": "Building a...",
-  "teamBackground": "2 ex-Coinbase engineers",
-  "requestedAmount": "$25,000",
-  "milestones": "Month 1: MVP..."
-}
-```
-
-**Output:** Overall score, Fund/Decline recommendation, suggested grant size, strengths, concerns.
-
----
-
-### risk-gate — $0.05/req
-
-Safety check for AI agents before executing onchain transactions.
-
-**Input:**
-```json
-{
-  "action": "buy token on Uniswap",
-  "contractAddress": "0x...",
-  "amount": "$50",
-  "agentId": "my-trading-agent"
-}
-```
-
-**Output:**
-```json
-{
-  "decision": "APPROVE",
-  "riskScore": 18,
-  "riskLevel": "Low",
-  "reasons": ["Verified contract", "Reasonable amount"],
-  "recommendation": "Safe to proceed",
-  "maxSafeAmount": "$200"
-}
-```
-
-**Decision values:** `APPROVE` | `WARN` | `BLOCK`
 
 ## Resources
 
 - **GitHub:** https://github.com/madebyshun/blueagent-x402-services
-- **Token:** $BLUEAGENT on Base — `0xf895783b2931c919955e18b5e3343e7c7c456ba3`
+- **Token:** $BLUEAGENT on Base
 - **Community:** https://t.me/blueagent_hub
-- **Bot:** @BlueAgent_bot
