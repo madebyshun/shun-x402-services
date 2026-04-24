@@ -1,0 +1,27 @@
+{
+  "name": "@blueagent/sdk",
+  "version": "1.0.0",
+  "description": "BlueAgent SDK — 25 x402 security and research tools for Base agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "viem": "^2.0.0",
+    "x402-fetch": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  },
+  "keywords": ["blueagent", "x402", "base", "security", "web3", "ai-agent"],
+  "license": "MIT"
+}

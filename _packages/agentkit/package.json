@@ -1,0 +1,14 @@
+{
+  "name": "@blueagent/agentkit",
+  "version": "1.0.0",
+  "description": "BlueAgent plugin for Coinbase AgentKit — security-first tools for Base agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc" },
+  "dependencies": { "@blueagent/sdk": "^1.0.0" },
+  "peerDependencies": { "@coinbase/agentkit": ">=0.1.0" },
+  "devDependencies": { "typescript": "^5.4.0", "@types/node": "^20.0.0" },
+  "keywords": ["blueagent", "agentkit", "coinbase", "base", "x402"],
+  "license": "MIT"
+}
