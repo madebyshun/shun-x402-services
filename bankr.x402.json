@@ -1182,11 +1182,10 @@
       }
     },
     "discover": {
-      "method": "GET",
-      "price": "0.00",
+      "price": "0.01",
       "scheme": "exact",
       "category": "meta",
-      "description": "Free service discovery — list all 31 tools, prices, schemas. Add ?category=safety|quantum|research|data|earn to filter. Add ?format=llm for compact text.",
+      "description": "Service discovery — list all 31 tools, prices, schemas. Add ?category=safety|quantum|research|data|earn to filter. Add ?format=llm for compact text.",
       "schema": {
         "input": {
           "type": "object",
