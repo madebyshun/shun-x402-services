@@ -1,0 +1,19 @@
+{
+  "name": "@blueagent/demo",
+  "version": "1.0.0",
+  "description": "BlueAgent demo video — made with Remotion",
+  "type": "module",
+  "scripts": {
+    "start": "bunx remotion studio",
+    "render": "bunx remotion render BlueAgentDemo out/demo.mp4",
+    "render:gif": "bunx remotion render BlueAgentDemo out/demo.gif"
+  },
+  "dependencies": {
+    "remotion": "^4.0.0",
+    "@remotion/cli": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^5.4.0"
+  }
+}
