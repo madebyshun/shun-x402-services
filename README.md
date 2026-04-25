@@ -5,6 +5,7 @@
 
 Built for AI agents, Zero-Human Companies (ZHC), and Base ecosystem builders.
 
+**Website:** https://blueagent-x402.vercel.app  
 **Base URL:** `https://x402.bankr.bot/0xf31f59e7b8b58555f7871f71973a394c8f1bffe5/`
 
 ---
