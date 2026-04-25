@@ -1,16 +1,16 @@
 import React from 'react'
 import { Composition } from 'remotion'
-import { BlueAgentDemo } from './BlueAgentDemo.js'
+import { X402Intro } from './X402Intro.js'
 
 export function RemotionRoot() {
   return (
     <Composition
       id="BlueAgentDemo"
-      component={BlueAgentDemo}
-      durationInFrames={450}
+      component={X402Intro}
+      durationInFrames={540}
       fps={30}
-      width={1200}
-      height={675}
+      width={1080}
+      height={1920}
     />
   )
 }
