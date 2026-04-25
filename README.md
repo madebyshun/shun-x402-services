@@ -24,29 +24,106 @@ Built for AI agents, Zero-Human Companies (ZHC), and Base ecosystem builders.
 
 ## MCP — Claude Code & Cursor
 
-Install 31 tools in 2 commands. Works in Claude Code, Claude Desktop, and Cursor.
+31 tools, 3 steps. Works in Claude Code CLI, Claude Desktop, and Cursor.
+
+### Step 1 — Run the installer
 
 ```bash
-# Install MCP server
-npx @blueagent/skill install --claude    # Claude Code
-npx @blueagent/skill install --cursor    # Cursor
-npx @blueagent/skill install --desktop   # Claude Desktop
-npx @blueagent/skill install --all       # All editors at once
-
-# Set your Base wallet
-export WALLET_PRIVATE_KEY=0x<your_key>
-
-# Restart your editor → 31 tools ready
+npx @blueagent/skill install --claude     # Claude Code CLI  ← most common
+npx @blueagent/skill install --desktop    # Claude Desktop app
+npx @blueagent/skill install --cursor     # Cursor
+npx @blueagent/skill install --all        # All editors at once
 ```
 
-Then ask Claude naturally:
+This writes the MCP server config to the correct settings file for each editor automatically.
+
+### Step 2 — Add your wallet key
+
+Open the config file that was printed (e.g. `~/.claude/settings.json`) and fill in your private key:
+
+```json
+"env": {
+  "WALLET_PRIVATE_KEY": "0x<your_64_char_hex_key>"
+}
+```
+
+**Don't have a key yet?**
+
+```bash
+# Option A — Export from MetaMask
+# MetaMask → click account name → ⋮ menu → Account Details → Export Private Key
+
+# Option B — Create a new wallet on the spot (fund it after)
+node -e "const {generatePrivateKey} = require('viem/accounts'); console.log(generatePrivateKey())"
+
+# Fund with USDC on Base (min ~$1 for testing)
+# Bridge at: https://bridge.base.org
+```
+
+### Step 3 — Restart your editor
+
+Close and reopen Claude Code / Claude Desktop / Cursor.
+
+Then type `/mcp` — you should see **blueagent** with status **connected** and 31 tools.
+
+### Verify it's working
+
+Ask Claude:
 
 ```
-"Is 0x4200... a honeypot?"
-"Check my wallet for dangerous approvals"
-"What's the quantum risk for 0xabc...?"
-"Find me the best USDC yield on Base"
-"Should my agent pause after losing $340?"
+"Is 0x4200000000000000000000000000000000000006 a honeypot?"
+"Check my wallet 0x... for dangerous approvals"
+"What's the best USDC yield on Base right now?"
+"Run a quantum risk check on 0xabc..."
+```
+
+---
+
+### Manual config (if installer doesn't work)
+
+**Claude Code** (`~/.claude/settings.json`):
+```json
+{
+  "mcpServers": {
+    "blueagent": {
+      "command": "npx",
+      "args": ["-y", "@blueagent/skill"],
+      "env": {
+        "WALLET_PRIVATE_KEY": "0x<your_key>"
+      }
+    }
+  }
+}
+```
+
+**Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json` on Mac):
+```json
+{
+  "mcpServers": {
+    "blueagent": {
+      "command": "npx",
+      "args": ["-y", "@blueagent/skill"],
+      "env": {
+        "WALLET_PRIVATE_KEY": "0x<your_key>"
+      }
+    }
+  }
+}
+```
+
+**Cursor** (`~/.cursor/mcp.json`):
+```json
+{
+  "mcpServers": {
+    "blueagent": {
+      "command": "npx",
+      "args": ["-y", "@blueagent/skill"],
+      "env": {
+        "WALLET_PRIVATE_KEY": "0x<your_key>"
+      }
+    }
+  }
+}
 ```
 
 Full setup guide: [docs/claude-code.md](docs/claude-code.md) · [docs/cursor.md](docs/cursor.md)
