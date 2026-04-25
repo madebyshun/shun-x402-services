@@ -40,7 +40,7 @@ function installToPath(path: string, label: string) {
   console.log(`  ✓ ${label} → ${path}`)
 }
 
-function main() {
+export function main() {
   const flag = process.argv[2] ?? '--help'
   const platform = process.platform as 'darwin' | 'linux' | 'win32'
 
@@ -95,4 +95,4 @@ ${keySet
 `)
 }
 
-main()
+if (process.argv[1]?.endsWith('install.js')) main()

@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+
+// When invoked as `npx @blueagent/skill install --claude`, delegate to install script
+if (process.argv[2] === 'install') {
+  const { main } = await import('../bin/install.js')
+  main()
+  process.exit(0)
+}
+
 import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js'
