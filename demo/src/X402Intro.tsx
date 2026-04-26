@@ -308,13 +308,27 @@ function Scene4({ frame }: { frame: number }) {
 }
 
 // ─── Scene 5 (690–810f · 23–27s): STATS ───────────────────────────────────
+function StatValue({ value, type }: { value: string; type: 'blue' | 'cyan' | 'green' }) {
+  const base: React.CSSProperties = { fontSize: 88, fontWeight: 900, fontFamily: SANS, lineHeight: 1 }
+  if (type === 'blue') return (
+    <div style={{ ...base, background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_LT} 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 20px rgba(26,82,255,0.4))' }}>
+      {value}
+    </div>
+  )
+  if (type === 'cyan') return (
+    <div style={{ ...base, background: `linear-gradient(135deg, ${CYAN} 0%, ${CYAN_LT} 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 20px rgba(51,195,255,0.3))' }}>
+      {value}
+    </div>
+  )
+  return (
+    <div style={{ ...base, color: SUCCESS, textShadow: `0 0 16px rgba(34,197,94,0.5)` }}>
+      {value}
+    </div>
+  )
+}
+
 function Scene5({ frame }: { frame: number }) {
   const f = frame - 690
-  const stats = [
-    { value: '31',     label: 'TOOLS',      color: BLUE },
-    { value: '$0.05',  label: 'MIN / CALL', color: CYAN },
-    { value: '<200ms', label: 'LATENCY',    color: SUCCESS },
-  ]
   const cats = [
     { label: 'Security', color: DANGER },
     { label: 'Research', color: BLUE_LT },
@@ -326,30 +340,18 @@ function Scene5({ frame }: { frame: number }) {
       <div style={{ ...fadeUp(f, 0), fontFamily: MONO, fontSize: 17, color: TEXT3, letterSpacing: 4 }}>NOW LIVE ON BASE</div>
 
       <div style={{ display: 'flex', gap: 80, alignItems: 'center' }}>
-        {stats.map((s, i) => (
-          <div key={s.label} style={{ ...fadeUp(f, 14 + i * 18), textAlign: 'center' }}>
-            <div style={{
-              fontSize: 88, fontWeight: 900, fontFamily: SANS, lineHeight: 1,
-              ...(i === 0 ? {
-                background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_LT} 100%)`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 20px rgba(26,82,255,0.4))',
-              } : i === 1 ? {
-                background: `linear-gradient(135deg, ${CYAN} 0%, ${CYAN_LT} 100%)`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 20px rgba(51,195,255,0.3))',
-              } : {
-                color: SUCCESS,
-                ...glowSuccess(0.8),
-              }),
-            }}>
-              {s.value}
-            </div>
-            <div style={{ fontFamily: MONO, fontSize: 15, color: TEXT3, letterSpacing: 3, marginTop: 10 }}>{s.label}</div>
-          </div>
-        ))}
+        <div style={{ ...fadeUp(f, 14), textAlign: 'center' }}>
+          <StatValue value="31" type="blue" />
+          <div style={{ fontFamily: MONO, fontSize: 15, color: TEXT3, letterSpacing: 3, marginTop: 10 }}>TOOLS</div>
+        </div>
+        <div style={{ ...fadeUp(f, 32), textAlign: 'center' }}>
+          <StatValue value="$0.05" type="cyan" />
+          <div style={{ fontFamily: MONO, fontSize: 15, color: TEXT3, letterSpacing: 3, marginTop: 10 }}>MIN / CALL</div>
+        </div>
+        <div style={{ ...fadeUp(f, 50), textAlign: 'center' }}>
+          <StatValue value="&lt;200ms" type="green" />
+          <div style={{ fontFamily: MONO, fontSize: 15, color: TEXT3, letterSpacing: 3, marginTop: 10 }}>LATENCY</div>
+        </div>
       </div>
 
       <div style={{ ...fadeUp(f, 75), display: 'flex', gap: 14 }}>
