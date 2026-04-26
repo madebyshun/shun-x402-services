@@ -1,0 +1,31 @@
+name: Render BlueAgent Demo Video
+
+on:
+  workflow_dispatch:  # chạy thủ công từ GitHub UI
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/check-x402-uSibo
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        working-directory: demo
+        run: bun install
+
+      - name: Render MP4
+        working-directory: demo
+        run: bunx remotion render BlueAgentDemo out/demo.mp4 --log=verbose
+
+      - name: Upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: blueagent-demo
+          path: demo/out/demo.mp4
+          retention-days: 7
