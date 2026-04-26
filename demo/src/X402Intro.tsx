@@ -215,12 +215,12 @@ function Scene2({ frame }: { frame: number }) {
 function Scene3({ frame }: { frame: number }) {
   const f = frame - 360
   const tools = [
-    { name: 'honeypot_check',    price: '$0.05', color: CYAN },
-    { name: 'rug_pull_risk',     price: '$0.10', color: CYAN },
-    { name: 'approval_guard',    price: '$0.05', color: BLUE_LT },
-    { name: 'mev_exposure',      price: '$0.10', color: BLUE_LT },
-    { name: 'circuit_breaker',   price: '$0.25', color: SUCCESS },
-    { name: 'wallet_risk_score', price: '$0.15', color: SUCCESS },
+    { name: 'honeypot-check',  price: '$0.05', color: CYAN },
+    { name: 'risk-gate',       price: '$0.05', color: CYAN },
+    { name: 'allowance-audit', price: '$0.20', color: BLUE_LT },
+    { name: 'mev-shield',      price: '$0.30', color: BLUE_LT },
+    { name: 'circuit-breaker', price: '$0.50', color: SUCCESS },
+    { name: 'phishing-scan',   price: '$0.10', color: SUCCESS },
   ]
   return (
     <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 28, padding: '80px 160px' }}>
@@ -232,7 +232,7 @@ function Scene3({ frame }: { frame: number }) {
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 0 24px rgba(26,82,255,0.5))',
         }}>31</div>
-        <div style={{ fontFamily: MONO, fontSize: 20, color: TEXT2, letterSpacing: 3 }}>SECURITY TOOLS</div>
+        <div style={{ fontFamily: MONO, fontSize: 20, color: TEXT2, letterSpacing: 3 }}>PAY-PER-USE TOOLS</div>
       </div>
 
       <div style={{ width: '100%', maxWidth: 820 }}>
@@ -248,7 +248,7 @@ function Scene3({ frame }: { frame: number }) {
           </div>
         ))}
         <div style={{ ...fadeUp(f, 130), textAlign: 'right', fontFamily: MONO, fontSize: 14, color: TEXT4, marginTop: 10 }}>
-          + 25 more across Security · Research · Data · Earn
+          + 25 more · Security · Research · Data · Quantum · Earn · Alerts
         </div>
       </div>
     </AbsoluteFill>
@@ -333,7 +333,9 @@ function Scene5({ frame }: { frame: number }) {
     { label: 'Security', color: DANGER },
     { label: 'Research', color: BLUE_LT },
     { label: 'Data',     color: SUCCESS },
+    { label: 'Quantum',  color: CYAN },
     { label: 'Earn',     color: WARNING },
+    { label: 'Alerts',   color: TEXT2 },
   ]
   return (
     <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 52, padding: '80px 100px' }}>
