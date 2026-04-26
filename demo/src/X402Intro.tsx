@@ -330,16 +330,20 @@ function Scene5({ frame }: { frame: number }) {
           <div key={s.label} style={{ ...fadeUp(f, 14 + i * 18), textAlign: 'center' }}>
             <div style={{
               fontSize: 88, fontWeight: 900, fontFamily: SANS, lineHeight: 1,
-              background: i === 0
-                ? `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_LT} 100%)`
-                : i === 1
-                  ? `linear-gradient(135deg, ${CYAN} 0%, ${CYAN_LT} 100%)`
-                  : `${SUCCESS}`,
-              WebkitBackgroundClip: i < 2 ? 'text' : undefined,
-              WebkitTextFillColor: i < 2 ? 'transparent' : undefined,
-              color: i === 2 ? SUCCESS : undefined,
-              ...(i === 2 ? glowSuccess(0.8) : {}),
-              filter: i < 2 ? `drop-shadow(0 0 20px ${i === 0 ? 'rgba(26,82,255,0.4)' : 'rgba(51,195,255,0.3)'})` : undefined,
+              ...(i === 0 ? {
+                background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_LT} 100%)`,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 0 20px rgba(26,82,255,0.4))',
+              } : i === 1 ? {
+                background: `linear-gradient(135deg, ${CYAN} 0%, ${CYAN_LT} 100%)`,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 0 20px rgba(51,195,255,0.3))',
+              } : {
+                color: SUCCESS,
+                ...glowSuccess(0.8),
+              }),
             }}>
               {s.value}
             </div>
