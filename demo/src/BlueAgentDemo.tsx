@@ -1,6 +1,6 @@
 import React from 'react'
 import { AbsoluteFill, Sequence, useCurrentFrame, spring, useVideoConfig } from 'remotion'
-import { Typewriter, useVisible, useFadeIn } from './Typewriter.js'
+import { Typewriter, useVisible, useFadeIn } from './Typewriter'
 
 const FONT = '"JetBrains Mono", "Fira Code", "Cascadia Code", monospace'
 

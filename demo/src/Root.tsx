@@ -1,6 +1,6 @@
 import React from 'react'
 import { Composition } from 'remotion'
-import { X402Intro } from './X402Intro.js'
+import { X402Intro } from './X402Intro'
 
 export function RemotionRoot() {
   return (
