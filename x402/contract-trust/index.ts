@@ -37,34 +37,58 @@ function extractArray(raw) {
 const basescan = {
   async getABI(address) {
     const key = process.env.BASESCAN_API_KEY ?? ''
-    const res = await fetch(`https://api.basescan.org/api?module=contract&action=getabi&address=${address}&apikey=${key}`, { signal: AbortSignal.timeout(5000) })
+    const res = await fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=contract&action=getabi&address=${address}&apikey=${key}`, { signal: AbortSignal.timeout(5000) })
     const data = await res.json()
     return { verified: data.status === '1', abi: data.result }
   },
   async getTokenTx(address, limit = 50) {
     const key = process.env.BASESCAN_API_KEY ?? ''
-    const res = await fetch(`https://api.basescan.org/api?module=account&action=tokentx&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
+    const res = await fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=account&action=tokentx&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
     const data = await res.json()
     return data.status === '1' ? data.result : []
   },
   async getTxList(address, limit = 100) {
     const key = process.env.BASESCAN_API_KEY ?? ''
-    const res = await fetch(`https://api.basescan.org/api?module=account&action=txlist&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
+    const res = await fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=account&action=txlist&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
     const data = await res.json()
     return data.status === '1' ? data.result : []
   },
+}
+
+async function fetchDexScreener(address: string): Promise<any> {
+  try {
+    const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${address}`, { signal: AbortSignal.timeout(6000) })
+    if (!res.ok) return null
+    const data = await res.json()
+    const pair = (data?.pairs ?? []).filter((p: any) => p.chainId === 'base').sort((a: any, b: any) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0]
+    if (!pair) return null
+    return {
+      name: pair.baseToken?.name,
+      symbol: pair.baseToken?.symbol,
+      liquidity: pair.liquidity?.usd,
+      volume24h: pair.volume?.h24,
+      buys24h: pair.txns?.h24?.buys,
+      sells24h: pair.txns?.h24?.sells,
+      priceUsd: pair.priceUsd,
+      pairAge: pair.pairCreatedAt ? Math.floor((Date.now() - pair.pairCreatedAt) / 86400000) + ' days' : 'unknown',
+      dex: pair.dexId,
+    }
+  } catch { return null }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 const SYSTEM = `You are a smart contract trust analyst for AI agents on Base chain. Your job is to determine if a contract is safe for an autonomous agent to interact with.
 
 Assess trust based on:
-- Source code verification on Basescan
+- Source code verification on Etherscan/Basescan
 - ABI structure (presence of dangerous functions)
-- Contract age and transaction volume
+- DexScreener market activity (liquidity, volume, trading history)
 - Known protocol associations
 - Proxy patterns and upgrade mechanisms
 - Admin key risks and centralization
+
+IMPORTANT: If Etherscan API is unavailable (no API key), do NOT penalize heavily. Instead rely on DexScreener market data.
+A contract with active trading, decent liquidity, and real volume is more trustworthy than an unknown contract, even if source code is unverified.
 
 Return ONLY valid JSON:
 
@@ -96,14 +120,21 @@ export default async function handler(req: Request): Promise<Response> {
 
     console.log(`[ContractTrust] Evaluating: ${address}`)
 
-    let contractData: any = { verified: false, abi: null }
-    try { contractData = await basescan.getABI(address) } catch {}
+    const hasApiKey = !!(process.env.BASESCAN_API_KEY ?? '').trim()
 
-    const txs = await basescan.getTxList(address, 10).catch(() => [])
+    const [contractData, dexData, txs] = await Promise.all([
+      basescan.getABI(address).catch(() => ({ verified: false, abi: null })),
+      fetchDexScreener(address),
+      hasApiKey ? basescan.getTxList(address, 10).catch(() => []) : Promise.resolve([]),
+    ])
+
+    const dexContext = dexData
+      ? `=== DexScreener (live market data) ===\nToken: ${dexData.name} (${dexData.symbol})\nLiquidity: $${dexData.liquidity?.toLocaleString() ?? 'N/A'}\nVolume 24h: $${dexData.volume24h?.toLocaleString() ?? 'N/A'}\nBuys/Sells 24h: ${dexData.buys24h ?? 0}/${dexData.sells24h ?? 0}\nPair age: ${dexData.pairAge}\nDEX: ${dexData.dex}`
+      : 'DexScreener: No trading pairs found on Base'
 
     const raw = await callLLM({
       system: SYSTEM,
-      user: `Evaluate trust for contract on Base:\nAddress: ${address}\nVerified: ${contractData.verified}\nABI available: ${!!contractData.abi && contractData.abi !== 'Contract source code not verified'}\nABI preview: ${contractData.abi ? String(contractData.abi).slice(0, 600) : 'Not available'}\nRecent tx count: ${txs.length}`,
+      user: `Evaluate trust for contract on Base:\nAddress: ${address}\n\n=== Etherscan Verification ===\nVerified: ${contractData.verified}\nAPI key available: ${hasApiKey}\nABI snippet: ${contractData.abi && contractData.abi !== 'Contract source code not verified' ? String(contractData.abi).slice(0, 400) : 'Not available'}\nRecent txs from Etherscan: ${txs.length}\n\n${dexContext}`,
       temperature: 0.2,
       maxTokens: 700,
     })

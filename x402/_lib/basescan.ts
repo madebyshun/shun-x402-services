@@ -1,9 +1,10 @@
-const BASE_URL = 'https://api.basescan.org/api'
+const BASE_URL = 'https://api.etherscan.io/v2/api'
 const key = () => process.env.BASESCAN_API_KEY || ''
 
 async function query(params: Record<string, string>): Promise<any> {
   const url = new URL(BASE_URL)
-  Object.entries({ ...params, apikey: key() }).forEach(([k, v]) => url.searchParams.set(k, v))
+  // Etherscan V2 requires chainid param for Base
+  Object.entries({ chainid: '8453', ...params, apikey: key() }).forEach(([k, v]) => url.searchParams.set(k, v))
   const res = await fetch(url.toString())
   return res.json()
 }

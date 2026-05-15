@@ -37,19 +37,19 @@ function extractArray(raw) {
 const basescan = {
   async getABI(address) {
     const key = process.env.BASESCAN_API_KEY ?? ''
-    const res = await fetch(`https://api.basescan.org/api?module=contract&action=getabi&address=${address}&apikey=${key}`, { signal: AbortSignal.timeout(5000) })
+    const res = await fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=contract&action=getabi&address=${address}&apikey=${key}`, { signal: AbortSignal.timeout(5000) })
     const data = await res.json()
     return { verified: data.status === '1', abi: data.result }
   },
   async getTokenTx(address, limit = 50) {
     const key = process.env.BASESCAN_API_KEY ?? ''
-    const res = await fetch(`https://api.basescan.org/api?module=account&action=tokentx&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
+    const res = await fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=account&action=tokentx&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
     const data = await res.json()
     return data.status === '1' ? data.result : []
   },
   async getTxList(address, limit = 100) {
     const key = process.env.BASESCAN_API_KEY ?? ''
-    const res = await fetch(`https://api.basescan.org/api?module=account&action=txlist&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
+    const res = await fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=account&action=txlist&address=${address}&sort=desc&offset=${limit}&apikey=${key}`, { signal: AbortSignal.timeout(8000) })
     const data = await res.json()
     return data.status === '1' ? data.result : []
   },
@@ -131,7 +131,7 @@ export default async function handler(req: Request): Promise<Response> {
       system: SYSTEM,
       user: `Find best yield opportunities for ${token} on Base chain.\n\n${poolContext}\n\nRecommend top 3-4 options with risk assessment.`,
       temperature: 0.4,
-      maxTokens: 900,
+      maxTokens: 1500,
     })
     return Response.json(extractJSON(raw))
   } catch (error) {

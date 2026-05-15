@@ -31,8 +31,8 @@ function extractJSON(raw: string): unknown {
 async function getTransactions(address: string) {
   const key = process.env.BASESCAN_API_KEY ?? ''
   const [txRes, tokenRes] = await Promise.all([
-    fetch(`https://api.basescan.org/api?module=account&action=txlist&address=${address}&sort=asc&offset=200&apikey=${key}`, { signal: AbortSignal.timeout(8000) }),
-    fetch(`https://api.basescan.org/api?module=account&action=tokentx&address=${address}&sort=asc&offset=200&apikey=${key}`, { signal: AbortSignal.timeout(8000) }),
+    fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=account&action=txlist&address=${address}&sort=asc&offset=200&apikey=${key}`, { signal: AbortSignal.timeout(8000) }),
+    fetch(`https://api.etherscan.io/v2/api?chainid=8453&module=account&action=tokentx&address=${address}&sort=asc&offset=200&apikey=${key}`, { signal: AbortSignal.timeout(8000) }),
   ])
   const [txData, tokenData] = await Promise.all([txRes.json(), tokenRes.json()])
   return {

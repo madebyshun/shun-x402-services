@@ -1,0 +1,14 @@
+{
+  "name": "blueagent-x402-services",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch server.ts",
+    "start": "tsx server.ts",
+    "test": "node test-all.mjs"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.4.0"
+  }
+}
